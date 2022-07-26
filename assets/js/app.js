@@ -56,3 +56,30 @@ sr.reveal('.section-title, .section-subtitle-container',{
 sr.reveal('.portfolio-card',{interval: 500});
 sr.reveal('.form-container, .footer',{
     origin: 'top'});
+
+// form
+const scriptURL = "https://script.google.com/macros/s/AKfycbwwav2Cf-5OmRp1-EwpJev4fpFS7wKTiEaPVThnUlwOcQQxIobzm1zVE_4xlWJrHwP5GQ/exec";
+const form = document.forms["berkahit-contact-form"];
+const btnKirim = document.querySelector(".btn-kirim");
+const btnLoading = document.querySelector(".btn-loading");
+const myAlert = document.querySelector(".my-alert");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // ketika tombol submit
+  // tampilan tombol loading, hilangkan tombol kirim
+  btnLoading.classList.toggle("d-none");
+  btnKirim.classList.toggle("d-none");
+  fetch(scriptURL, { method: "POST", body: new FormData(form) })
+    .then((response) => {
+      // tampilkan tombol kirim, hilangkan tombol loading
+      btnLoading.classList.toggle("d-none");
+      btnKirim.classList.toggle("d-none");
+      // tampilkan alert
+      myAlert.classList.toggle("d-none");
+      // reset formnya
+      form.reset();
+      console.log("Success!", response);
+    })
+    .catch((error) => console.error("Error!", error.message));
+});
